@@ -109,6 +109,8 @@ class ViewController: UIViewController {
         return Service(delegate: self)
     }()
     
+    private var urlDocument: URL?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -207,7 +209,9 @@ class ViewController: UIViewController {
     }
     
     @objc private func openPdfButtonClick() {
-        
+        let pdfViewController = PdfViewController()
+        pdfViewController.urlDocument = self.urlDocument
+        self.present(pdfViewController, animated: true, completion: nil)
     }
     
     @objc private func pauseButtonClick() {
@@ -253,11 +257,11 @@ class ViewController: UIViewController {
         errorMessage.text = message
         toggleElementsOnScreen(element: .errorMessage)
     }
-    
 }
 
 extension ViewController: ServiceDelegate {
-    func downloadSuccess() {
+    func downloadSuccess(fileURL: URL) {
+        self.urlDocument = fileURL
         toggleElementsOnScreen(element: .buttonOpenPdf)
     }
     

@@ -8,14 +8,13 @@
 import Foundation
 
 protocol ServiceDelegate {
-    func downloadSuccess()
+    func downloadSuccess(fileURL: URL)
     func downloadError(errorMessage: String)
 }
 
 final class Service: NSObject {
     
     private let urlString = "https://www.learningcontainer.com/wp-content/uploads/2019/09/sample-pdf-file.pdf"
-    private var documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     private lazy var downloadSession: URLSession = {
         return URLSession(configuration: .default,
                           delegate: self,
@@ -34,14 +33,8 @@ final class Service: NSObject {
     }
     
     private func localFilePath(for url: URL) -> URL {
-        return documentsPath.appendingPathComponent(url.lastPathComponent)
+        return DocumentUtils.documentsPath.appendingPathComponent(url.lastPathComponent)
     }
-    
-    private func showSuccess() {
-        
-    }
-    
-    
 }
 
 extension Service: URLSessionDownloadDelegate {
@@ -56,7 +49,7 @@ extension Service: URLSessionDownloadDelegate {
             try? fileManager.removeItem(at: destinationPath)
             try fileManager.copyItem(at: location, to: destinationPath)
             DispatchQueue.main.async {
-                self.delegate?.downloadSuccess()
+                self.delegate?.downloadSuccess(fileURL: destinationPath)
             }
         } catch let error {
             let errorMessage = "Could not copy file to disk: \(error)"

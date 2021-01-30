@@ -15,6 +15,8 @@
 		2DE903A325C0FC7700D632F1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DE903A125C0FC7700D632F1 /* LaunchScreen.storyboard */; };
 		2DEAAEEE25C2206D00D9BD4B /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DEAAEED25C2206D00D9BD4B /* Service.swift */; };
 		2DEAAEF225C24D4600D9BD4B /* ScreenElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DEAAEF125C24D4600D9BD4B /* ScreenElement.swift */; };
+		2DF6AE4225C5CD0900C9DADD /* PdfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF6AE4125C5CD0900C9DADD /* PdfViewController.swift */; };
+		2DF6AE4825C5D15A00C9DADD /* DocumentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF6AE4725C5D15A00C9DADD /* DocumentUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		2DE903A425C0FC7700D632F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2DEAAEED25C2206D00D9BD4B /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		2DEAAEF125C24D4600D9BD4B /* ScreenElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenElement.swift; sourceTree = "<group>"; };
+		2DF6AE4125C5CD0900C9DADD /* PdfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfViewController.swift; sourceTree = "<group>"; };
+		2DF6AE4725C5D15A00C9DADD /* DocumentUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +72,9 @@
 				2DE903A125C0FC7700D632F1 /* LaunchScreen.storyboard */,
 				2DE903A425C0FC7700D632F1 /* Info.plist */,
 				2DEAAEED25C2206D00D9BD4B /* Service.swift */,
+				2DF6AE4725C5D15A00C9DADD /* DocumentUtils.swift */,
 				2DEAAEF125C24D4600D9BD4B /* ScreenElement.swift */,
+				2DF6AE4125C5CD0900C9DADD /* PdfViewController.swift */,
 			);
 			path = URLSessionDownloadFileEx;
 			sourceTree = "<group>";
@@ -143,11 +149,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2DF6AE4825C5D15A00C9DADD /* DocumentUtils.swift in Sources */,
 				2DEAAEF225C24D4600D9BD4B /* ScreenElement.swift in Sources */,
 				2DE9039B25C0FC7600D632F1 /* ViewController.swift in Sources */,
 				2DEAAEEE25C2206D00D9BD4B /* Service.swift in Sources */,
 				2DE9039725C0FC7600D632F1 /* AppDelegate.swift in Sources */,
 				2DE9039925C0FC7600D632F1 /* SceneDelegate.swift in Sources */,
+				2DF6AE4225C5CD0900C9DADD /* PdfViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
