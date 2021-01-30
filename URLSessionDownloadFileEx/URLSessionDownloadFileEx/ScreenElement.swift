@@ -12,4 +12,5 @@ enum ScreenElement {
     case buttonOpenPdf
     case buttonResume
     case containerView
+    case errorMessage
 }

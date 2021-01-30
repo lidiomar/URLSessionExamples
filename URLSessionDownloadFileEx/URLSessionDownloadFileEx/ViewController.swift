@@ -53,6 +53,17 @@ class ViewController: UIViewController {
         return button
     }()
     
+    private lazy var errorMessage: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        label.font = label.font.withSize(16)
+        label.isHidden = true
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
+    }()
+    
     // MARK: - Container Views
     
     private lazy var containerView: UIView = {
@@ -94,7 +105,9 @@ class ViewController: UIViewController {
     
     // MARK: - Service
     
-    private let service = Service()
+    private lazy var service: Service = {
+        return Service(delegate: self)
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,6 +124,7 @@ class ViewController: UIViewController {
         self.view.addSubview(buttonResume)
         self.view.addSubview(containerView)
         self.view.addSubview(spinner)
+        self.view.addSubview(errorMessage)
     }
     
     private func configureContainerView() {
@@ -147,6 +161,13 @@ class ViewController: UIViewController {
             buttonResume.heightAnchor.constraint(equalToConstant: 50),
             buttonResume.widthAnchor.constraint(equalToConstant: 200)
         ])
+        
+        NSLayoutConstraint.activate([
+            errorMessage.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 20),
+            errorMessage.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            errorMessage.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            errorMessage.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        ])
     }
     
     private func configureContainerConstraints() {
@@ -182,7 +203,7 @@ class ViewController: UIViewController {
     
     @objc private func downloadButtonClick() {
         toggleElementsOnScreen(element: .containerView)
-        //self.service.downloadFile()
+        self.service.downloadFile()
     }
     
     @objc private func openPdfButtonClick() {
@@ -216,6 +237,8 @@ class ViewController: UIViewController {
             buttonResume.isHidden = false
         case .containerView:
             containerView.isHidden = false
+        case .errorMessage:
+            errorMessage.isHidden = false
         }
     }
     
@@ -224,5 +247,21 @@ class ViewController: UIViewController {
         buttonOpenPdf.isHidden = true
         buttonResume.isHidden = true
         containerView.isHidden = true
+    }
+    
+    private func showErrorMessage(message: String) {
+        errorMessage.text = message
+        toggleElementsOnScreen(element: .errorMessage)
+    }
+    
+}
+
+extension ViewController: ServiceDelegate {
+    func downloadSuccess() {
+        toggleElementsOnScreen(element: .buttonOpenPdf)
+    }
+    
+    func downloadError(errorMessage: String) {
+        showErrorMessage(message: errorMessage)
     }
 }
