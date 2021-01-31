@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVKit
 
 class ViewController: UIViewController {
     
@@ -36,7 +37,7 @@ class ViewController: UIViewController {
         button.backgroundColor = .white
         button.setTitleColor(.blue, for: .normal)
         button.layer.cornerRadius = 10
-        button.addTarget(self, action: #selector(openPdfButtonClick), for: .touchUpInside)
+        button.addTarget(self, action: #selector(openButtonPDFClick), for: .touchUpInside)
         button.isHidden = true
         return button
     }()
@@ -125,7 +126,6 @@ class ViewController: UIViewController {
         self.view.addSubview(buttonOpenPdf)
         self.view.addSubview(buttonResume)
         self.view.addSubview(containerView)
-        self.view.addSubview(spinner)
         self.view.addSubview(errorMessage)
     }
     
@@ -181,15 +181,8 @@ class ViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            spinner.topAnchor.constraint(equalTo: containerView.topAnchor),
-            spinner.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            spinner.heightAnchor.constraint(equalToConstant: 50),
-            spinner.widthAnchor.constraint(equalToConstant: 200)
-        ])
-        
-        NSLayoutConstraint.activate([
-            buttonPause.topAnchor.constraint(equalTo: spinner.bottomAnchor),
-            buttonPause.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            buttonPause.topAnchor.constraint(equalTo: containerView.topAnchor),
+            buttonPause.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             buttonPause.heightAnchor.constraint(equalToConstant: 50),
             buttonPause.widthAnchor.constraint(equalToConstant: 200)
         ])
@@ -197,9 +190,16 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             buttonCancel.topAnchor.constraint(equalTo: buttonPause.bottomAnchor, constant: 10),
             buttonCancel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            buttonCancel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             buttonCancel.heightAnchor.constraint(equalToConstant: 50),
             buttonCancel.widthAnchor.constraint(equalToConstant: 200)
+        ])
+        
+        NSLayoutConstraint.activate([
+            spinner.topAnchor.constraint(equalTo: buttonCancel.bottomAnchor, constant: 10),
+            spinner.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            spinner.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            spinner.heightAnchor.constraint(equalToConstant: 50),
+            spinner.widthAnchor.constraint(equalToConstant: 200)
         ])
     }
     
@@ -208,21 +208,33 @@ class ViewController: UIViewController {
         self.service.downloadFile()
     }
     
-    @objc private func openPdfButtonClick() {
+    @objc private func openButtonPDFClick() {
         let pdfViewController = PdfViewController()
         pdfViewController.urlDocument = self.urlDocument
         self.present(pdfViewController, animated: true, completion: nil)
     }
     
+    @objc private func openButtonPlayerClick() {
+        guard let url = self.urlDocument else { return }
+        let playerViewController = AVPlayerViewController()
+        self.present(playerViewController, animated: true, completion: nil)
+        let player = AVPlayer(url: url)
+        playerViewController.player = player
+        player.play()
+    }
+    
     @objc private func pauseButtonClick() {
+        service.pauseDownloadFile()
         toggleElementsOnScreen(element: .buttonResume)
     }
     
     @objc private func cancelButtonClick() {
+        service.cancelDownloadFile()
         toggleElementsOnScreen(element: .buttonDownload)
     }
     
     @objc private func resumeButtonClick() {
+        service.resumeDownloadFile()
         toggleElementsOnScreen(element: .containerView)
     }
     
